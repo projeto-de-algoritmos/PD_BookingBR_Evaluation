@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
+	PD_BookingBR_Evaluation "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
 	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/utl/secure"
 
 	"github.com/go-pg/pg/v9"
@@ -14,10 +14,12 @@ import (
 )
 
 func main() {
-	dbInsert := `INSERT INTO public.hotels VALUES (1, now(), now(), NULL, 'admin_hotel', 123.45);
+	dbInsert := `INSERT INTO public.companies VALUES (1, now(), now(), NULL, 'admin_company', true);
+	INSERT INTO public.locations VALUES (1, now(), now(), NULL, 'admin_location', true, 'admin_address', 1);
 	INSERT INTO public.roles VALUES (100, 100, 'SUPER_ADMIN');
 	INSERT INTO public.roles VALUES (110, 110, 'ADMIN');
-	INSERT INTO public.roles VALUES (120, 120, 'HOTEL_ADMIN');
+	INSERT INTO public.roles VALUES (120, 120, 'COMPANY_ADMIN');
+	INSERT INTO public.roles VALUES (130, 130, 'LOCATION_ADMIN');
 	INSERT INTO public.roles VALUES (200, 200, 'USER');`
 	var psn = os.Getenv("DATABASE_URL")
 	queries := strings.Split(dbInsert, ";")
@@ -27,7 +29,7 @@ func main() {
 	db := pg.Connect(u)
 	_, err = db.Exec("SELECT 1")
 	checkErr(err)
-	createSchema(db, &PD_BookingBR_Evaluation.Hotel{}, &PD_BookingBR_Evaluation.Role{}, &PD_BookingBR_Evaluation.User{})
+	createSchema(db, &PD_BookingBR_Evaluation.Company{}, &PD_BookingBR_Evaluation.Location{}, &PD_BookingBR_Evaluation.Role{}, &PD_BookingBR_Evaluation.User{})
 
 	for _, v := range queries[0 : len(queries)-1] {
 		_, err := db.Exec(v)
@@ -36,7 +38,7 @@ func main() {
 
 	sec := secure.New(1, nil)
 
-	userInsert := `INSERT INTO public.users (id, created_at, updated_at, first_name, last_name, username, password, email, active, role_id, company_id) VALUES (1, now(),now(),'Admin', 'Admin', 'admin', '%s', 'johndoe@mail.com', true, 100, 1);`
+	userInsert := `INSERT INTO public.users (id, created_at, updated_at, first_name, last_name, username, password, email, active, role_id, company_id, location_id) VALUES (1, now(),now(),'Admin', 'Admin', 'admin', '%s', 'johndoe@mail.com', true, 100, 1, 1);`
 	_, err = db.Exec(fmt.Sprintf(userInsert, sec.Hash("admin")))
 	checkErr(err)
 }

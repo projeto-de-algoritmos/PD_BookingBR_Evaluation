@@ -3,7 +3,7 @@ package rbac
 import (
 	"github.com/labstack/echo"
 
-	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
+	PD_BookingBR_Evaluation "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
 )
 
 // Service is RBAC application service
@@ -20,15 +20,17 @@ func checkBool(b bool) error {
 func (s Service) User(c echo.Context) PD_BookingBR_Evaluation.AuthUser {
 	id := c.Get("id").(int)
 	companyID := c.Get("company_id").(int)
+	locationID := c.Get("location_id").(int)
 	user := c.Get("username").(string)
 	email := c.Get("email").(string)
 	role := c.Get("role").(PD_BookingBR_Evaluation.AccessRole)
 	return PD_BookingBR_Evaluation.AuthUser{
-		ID:        id,
-		Username:  user,
-		CompanyID: companyID,
-		Email:     email,
-		Role:      role,
+		ID:         id,
+		Username:   user,
+		CompanyID:  companyID,
+		LocationID: locationID,
+		Email:      email,
+		Role:       role,
 	}
 }
 
@@ -83,7 +85,10 @@ func (s Service) isCompanyAdmin(c echo.Context) bool {
 
 // AccountCreate performs auth check when creating a new account
 // Location admin cannot create accounts, needs to be fixed on EnforceLocation function
-func (s Service) AccountCreate(c echo.Context, roleID PD_BookingBR_Evaluation.AccessRole) error {
+func (s Service) AccountCreate(c echo.Context, roleID PD_BookingBR_Evaluation.AccessRole, companyID, locationID int) error {
+	if err := s.EnforceLocation(c, locationID); err != nil {
+		return err
+	}
 	return s.IsLowerRole(c, roleID)
 }
 

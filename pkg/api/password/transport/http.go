@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
+	PD_BookingBR_Evaluation "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
 	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/password"
 
 	"github.com/labstack/echo"

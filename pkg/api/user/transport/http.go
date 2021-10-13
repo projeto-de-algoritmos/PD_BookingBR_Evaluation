@@ -1,11 +1,10 @@
-// Package user contains user application services
-package user
+package transport
 
 import (
 	"net/http"
 	"strconv"
 
-	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
+	PD_BookingBR_Evaluation "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
 	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/user"
 
 	"github.com/labstack/echo"
@@ -173,13 +172,14 @@ func (h HTTP) create(c echo.Context) error {
 	}
 
 	usr, err := h.svc.Create(c, PD_BookingBR_Evaluation.User{
-		Username:  r.Username,
-		Password:  r.Password,
-		Email:     r.Email,
-		FirstName: r.FirstName,
-		LastName:  r.LastName,
-		CompanyID: r.CompanyID,
-		RoleID:    r.RoleID,
+		Username:   r.Username,
+		Password:   r.Password,
+		Email:      r.Email,
+		FirstName:  r.FirstName,
+		LastName:   r.LastName,
+		CompanyID:  r.CompanyID,
+		LocationID: r.LocationID,
+		RoleID:     r.RoleID,
 	})
 
 	if err != nil {

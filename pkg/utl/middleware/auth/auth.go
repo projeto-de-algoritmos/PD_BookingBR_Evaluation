@@ -6,7 +6,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
 
-	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
+	PD_BookingBR_Evaluation "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
 )
 
 // TokenParser represents JWT token parser

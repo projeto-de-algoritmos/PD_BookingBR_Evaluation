@@ -1,14 +1,16 @@
+// Package user contains user application services
 package user
 
 import (
 	"github.com/labstack/echo"
 
-	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
+	PD_BookingBR_Evaluation "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
 	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/utl/query"
 )
 
+// Create creates a new user account
 func (u User) Create(c echo.Context, req PD_BookingBR_Evaluation.User) (PD_BookingBR_Evaluation.User, error) {
-	if err := u.rbac.AccountCreate(c, req.RoleID); err != nil {
+	if err := u.rbac.AccountCreate(c, req.RoleID, req.CompanyID, req.LocationID); err != nil {
 		return PD_BookingBR_Evaluation.User{}, err
 	}
 	req.Password = u.sec.Hash(req.Password)

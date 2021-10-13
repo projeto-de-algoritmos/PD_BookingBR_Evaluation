@@ -5,7 +5,7 @@ import (
 	"github.com/go-pg/pg/v9/orm"
 	"github.com/labstack/echo"
 
-	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
+	PD_BookingBR_Evaluation "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
 	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/user/platform/pgsql"
 )
 
@@ -54,6 +54,6 @@ type UDB interface {
 type RBAC interface {
 	User(echo.Context) PD_BookingBR_Evaluation.AuthUser
 	EnforceUser(echo.Context, int) error
-	AccountCreate(echo.Context, PD_BookingBR_Evaluation.AccessRole) error
+	AccountCreate(echo.Context, PD_BookingBR_Evaluation.AccessRole, int, int) error
 	IsLowerRole(echo.Context, PD_BookingBR_Evaluation.AccessRole) error
 }

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
+	PD_BookingBR_Evaluation "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -68,6 +68,7 @@ func (s Service) GenerateToken(u PD_BookingBR_Evaluation.User) (string, error) {
 		"e":   u.Email,
 		"r":   u.Role.AccessLevel,
 		"c":   u.CompanyID,
+		"l":   u.LocationID,
 		"exp": time.Now().Add(s.ttl).Unix(),
 	}).SignedString(s.key)
 

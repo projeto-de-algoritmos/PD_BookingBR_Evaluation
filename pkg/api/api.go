@@ -1,3 +1,34 @@
+// Copyright 2017 Emir Ribic. All rights reserved.
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file.
+
+// PD_BookingBR_Evaluation - Go(lang) restful starter kit
+//
+// API Docs for PD_BookingBR_Evaluation v1
+//
+// 	 Terms Of Service:  N/A
+//     Schemes: http
+//     Version: 2.0.0
+//     License: MIT http://opensource.org/licenses/MIT
+//     Contact: Emir Ribic <ribice@gmail.com> https://ribice.ba
+//     Host: localhost:8080
+//
+//     Consumes:
+//     - application/json
+//
+//     Produces:
+//     - application/json
+//
+//     Security:
+//     - bearer: []
+//
+//     SecurityDefinitions:
+//     bearer:
+//          type: apiKey
+//          name: Authorization
+//          in: header
+//
+// swagger:meta
 package api
 
 import (
@@ -34,7 +65,7 @@ func Start(cfg *config.Configuration) error {
 
 	sec := secure.New(cfg.App.MinPasswordStr, sha1.New())
 	rbac := rbac.Service{}
-	jwt, err := jwt.New(cfg.JWT.SigningAlgorithm, os.Getenv("JWT_SECRET"), cfg.JWT.DurationMinutes, cfg.JWT.MinSecretLength)
+	jwt, err := jwt.New(cfg.JWT.SigningAlgorithm, "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkFETUlOIiwiZXhwIjoxNjM1MDg2MTc4LCJpYXQiOjE2MzQxMzU3Nzh9.lBlHZkbQUIBDnHFeNUEurbU1T0WXSOsP-dso66FP2bs", cfg.JWT.DurationMinutes, cfg.JWT.MinSecretLength)
 	if err != nil {
 		return err
 	}

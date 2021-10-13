@@ -1,4 +1,3 @@
-// Package user contains user application services
 package user
 
 import (
@@ -6,7 +5,7 @@ import (
 
 	"github.com/labstack/echo"
 
-	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
+	PD_BookingBR_Evaluation "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation"
 	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/user"
 )
 
