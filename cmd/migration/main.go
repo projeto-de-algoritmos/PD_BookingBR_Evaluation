@@ -29,7 +29,7 @@ func main() {
 	db := pg.Connect(u)
 	_, err = db.Exec("SELECT 1")
 	checkErr(err)
-	createSchema(db, &PD_BookingBR_Evaluation.Company{}, &PD_BookingBR_Evaluation.Location{}, &PD_BookingBR_Evaluation.Role{}, &PD_BookingBR_Evaluation.User{})
+	createSchema(db, &PD_BookingBR_Evaluation.Company{}, &PD_BookingBR_Evaluation.Location{}, &PD_BookingBR_Evaluation.Role{}, &PD_BookingBR_Evaluation.User{}, &PD_BookingBR_Evaluation.Hotel{})
 
 	for _, v := range queries[0 : len(queries)-1] {
 		_, err := db.Exec(v)
@@ -40,6 +40,10 @@ func main() {
 
 	userInsert := `INSERT INTO public.users (id, created_at, updated_at, first_name, last_name, username, password, email, active, role_id, company_id, location_id) VALUES (1, now(),now(),'Admin', 'Admin', 'admin', '%s', 'johndoe@mail.com', true, 100, 1, 1);`
 	_, err = db.Exec(fmt.Sprintf(userInsert, sec.Hash("admin")))
+	checkErr(err)
+
+	hotelInsert := `INSERT INTO public.hotels (id, name, value, company_id, role_id) VALUES (1, 'Admin', 200.12, 1, 200);`
+	_, err = db.Exec(fmt.Sprintf(hotelInsert))
 	checkErr(err)
 }
 

@@ -338,7 +338,47 @@
           }
         }
       }
-    }
+    },
+    "/v1/hotels": {
+      "get": {
+        "description": "Returns list of hotels. Depending on the hotel role requesting it, it may return all users for SuperAdmin/Admin users, all company/location users for Company/Location admins, and an error for non-admin users.",
+        "tags": [
+          "hotels"
+        ],
+        "summary": "Returns list of hotels.",
+        "operationId": "listHotels",
+        "parameters": [
+          {
+            "type": "int",
+            "description": "number of results",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "int",
+            "description": "page number",
+            "name": "page",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/hotelListResp"
+          },
+          "400": {
+            "$ref": "#/responses/errMsg"
+          },
+          "401": {
+            "$ref": "#/responses/err"
+          },
+          "403": {
+            "$ref": "#/responses/err"
+          },
+          "500": {
+            "$ref": "#/responses/err"
+          }
+        }
+      }
   },
   "definitions": {
     "AccessRole": {

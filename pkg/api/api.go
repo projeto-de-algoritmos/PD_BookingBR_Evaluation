@@ -40,6 +40,9 @@ import (
 	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/auth"
 	al "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/auth/logging"
 	at "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/auth/transport"
+	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/hotel"
+	hl "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/hotel/logging"
+	ht "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/hotel/transport"
 	"github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/password"
 	pl "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/password/logging"
 	pt "github.com/projeto-de-algoritmos/PD_BookingBR_Evaluation/pkg/api/password/transport"
@@ -84,6 +87,7 @@ func Start(cfg *config.Configuration) error {
 
 	ut.NewHTTP(ul.New(user.Initialize(db, rbac, sec), log), v1)
 	pt.NewHTTP(pl.New(password.Initialize(db, rbac, sec), log), v1)
+	ht.NewHTTP(hl.New(hotel.Initialize(db, rbac, sec), log), v1)
 
 	server.Start(e, &server.Config{
 		Port:                cfg.Server.Port,
