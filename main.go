@@ -1,9 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math"
+	"os"
 	"sort"
+	"strconv"
+	"strings"
 )
 
 type Booking struct {
@@ -15,6 +19,8 @@ type Booking struct {
 
 func main() {
 
+	maxStars := readUser()
+
 	bookValues := []Booking{
 		{name: "Lolapaluza", value: 289.0, time: 7200., stars: 10.},
 		{name: "NotreDame", value: 190.0, time: 2880., stars: 3.},
@@ -24,16 +30,37 @@ func main() {
 		{name: "Cielo", value: 279.0, time: 8640., stars: 1.},
 		{name: "Amigos", value: 350.0, time: 10080., stars: 5.},
 		{name: "Donatello", value: 110.0, time: 2160., stars: 1.},
+
+		{name: "SecondHand Hotel", value: 689.0, time: 17200., stars: 7.},
+		{name: "Spitfire Hotel", value: 490.0, time: 6580., stars: 8.},
+		{name: "Wicked Hotel", value: 905.0, time: 1320., stars: 6.},
+		{name: "Hotel Escolhas", value: 515.0, time: 7840., stars: 3.},
+		{name: "Foundry Hotel", value: 130.0, time: 5760., stars: 9.},
+		{name: "Quantum Hotel", value: 279.0, time: 8640., stars: 1.},
+		{name: "Oráculo Hotel", value: 350.0, time: 10080., stars: 5.},
+		{name: "Global Hotel", value: 1310.0, time: 12160., stars: 7.},
+		{name: "Glorial Hotel", value: 1410.0, time: 12160., stars: 7.},
 	}
 
 	f := func(i, j int) bool {
-		return bookValues[i].value/bookValues[i].stars > bookValues[j].value/bookValues[j].stars
+		return bookValues[i].value > bookValues[j].value
 	}
 
-	KnapSack(bookValues, 10, f)
-	v, s := BestCombination(bookValues, 10)
-	fmt.Println(v)
-	fmt.Println(s)
+	KnapSack(bookValues, maxStars, f)
+
+	v, s := BestCombination(bookValues, maxStars)
+
+	fmt.Print(`
+	O valor total das acomodações foi de: 
+	`, v)
+
+	fmt.Println(`
+	O Hoteis escolhidos foram os seguintes:
+	`)
+
+	for _, v := range s {
+		fmt.Println(`		`, v.name, v.value)
+	}
 }
 
 func KnapSack(bookings []Booking, maxStars float64, metric func(i, j int) bool) (r []Booking, r2 []Booking) {
@@ -47,7 +74,7 @@ func KnapSack(bookings []Booking, maxStars float64, metric func(i, j int) bool) 
 			s += i.stars
 		}
 	}
-	fmt.Println(r)
+	//fmt.Println(r)
 	return
 }
 
@@ -98,4 +125,25 @@ func BestCombination(bookings []Booking, maxStars float64) (float64, []Booking) 
 		}
 	}
 	return bestVal, bestSack
+}
+
+func readUser() float64 {
+	fmt.Print(`
+							BookingBR.com
+			
+	Para selecionarmos as melhores acomodações para você, precisamos que você selecione o número de estrelas de 1 a 10: 
+	`)
+
+	reader := bufio.NewReader(os.Stdin)
+
+	text, _ := reader.ReadString('\n')
+	star := strings.TrimRight(strings.Replace(text, "\n", "", -1), "\r")
+
+	stars, err := strconv.ParseFloat(star, 32)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return stars
 }
